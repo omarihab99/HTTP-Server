@@ -11,7 +11,7 @@ const handleRequest = (data) => {
     const [info, _] = data.split("\r\n");
     const [__, path] = info.split(" ");
     const randomString = path.split("/")[2];
-    console.log(path);
+    console.log("path",path);
     return randomString;
 }
 const server = net.createServer((socket) => {
