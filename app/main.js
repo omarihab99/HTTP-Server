@@ -8,6 +8,7 @@ const createResponse = (info) => {
     return "HTTP/1.1  200 OK\r\nContent-Type: text/plain\r\nContent-Length:" + info.length + "\r\n\r\n" + info;
 }
 const handleRequest = (data) => {
+    console.log("data", data);
     const [info, _] = data.split("\r\n");
     const [__, path] = info.split(" ");
     const randomString = path.split("/")[2];
