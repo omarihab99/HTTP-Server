@@ -20,8 +20,8 @@ const handleRequest = (data) => {
     if(path==="/") return createResponse("/");
     const pathArr = path.split("/");
     if(pathArr[1]!=="echo") return createResponse("");
-    const randomString = pathArr[2];
-    return createResponse(randomString);
+    const string = path.split("/echo/")[1];
+    return createResponse(string);
 }
 const server = net.createServer((socket) => {
   console.log("SERVER: Starting");  
