@@ -5,13 +5,17 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this to pass the first stage
 const createResponse = (info) => {
+    if(info===""){
+        return "HTTP/1.1  200 OK\r\n\r\n";
+    }
     return "HTTP/1.1  200 OK\r\nContent-Type: text/plain\r\nContent-Length:" + info.length + "\r\n\r\n" + info;
 }
 const handleRequest = (data) => {
     console.log("data", data);
     const [info, _] = data.split("\r\n");
+    console.log("info", info);
     const [__, path] = info.split(" ");
-    const randomString = path.split("/")[2];
+    const randomString = path.split("/")[2] === undefined ? "" : path.split("/")[2];
     console.log("path",path);
     return randomString;
 }
