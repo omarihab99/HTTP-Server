@@ -6,18 +6,22 @@ console.log("Logs from your program will appear here!");
 // Uncomment this to pass the first stage
 const createResponse = (info) => {
     if(info===""){
+        return "HTTP/1.1  404 Not Found\r\n\r\n";
+    }
+    if(info==="/"){
         return "HTTP/1.1  200 OK\r\n\r\n";
     }
     return "HTTP/1.1  200 OK\r\nContent-Type: text/plain\r\nContent-Length:" + info.length + "\r\n\r\n" + info;
 }
 const handleRequest = (data) => {
-    console.log("data", data);
     const [info, _] = data.split("\r\n");
-    console.log("info", info);
     const [__, path] = info.split(" ");
-    const randomString = path.split("/")[2] === undefined ? "" : path.split("/")[2];
-    console.log("path",path);
-    return randomString;
+    if(path==="") return createResponse("");
+    if(path==="/") return createResponse("/");
+    const pathArr = path.split("/");
+    if(pathArr[1]!=="echo") return createResponse("");
+    const randomString = pathArr[2];
+    return createResponse(randomString);
 }
 const server = net.createServer((socket) => {
   console.log("SERVER: Starting");  
@@ -26,8 +30,7 @@ const server = net.createServer((socket) => {
     server.close();
   });
   socket.on("data", (data) => {
-    const info = handleRequest(data.toString());
-    const res = createResponse(info);
+    const res = handleRequest(data.toString());
     socket.write(res);
     socket.end();
   });
