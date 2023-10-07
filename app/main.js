@@ -17,7 +17,7 @@ const parseRequest = (data) => {
     const [request, ...requestHeaders] = data.split("\r\n");
     const [method, path , version] = request.split(" ");
     const headers = {};
-    requestHeaders.split("\r\n").forEach((header) => {
+    requestHeaders.forEach((header) => {
         if(!header) return;
         const [key, value] = header.split(": ");
         headers[key] = value;
