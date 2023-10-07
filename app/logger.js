@@ -1,15 +1,15 @@
 const LOGGER = {
     header: (msg) => {
-        console.log(msg);
+        console.log("Headers: ",msg);
     },
     method: (msg) => {
-        console.log(msg);
+        console.log("Method: ",msg);
     },
     version: (msg) => {
-        console.log(msg);
+        console.log("Version: ",msg);
     },
     path: (msg) => {
-        console.log(msg);
+        console.log("Path: ",msg);
     }
 }
 module.exports = LOGGER;
