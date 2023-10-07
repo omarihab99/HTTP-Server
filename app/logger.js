@@ -11,5 +11,8 @@ const LOGGER = {
     path: (msg) => {
         console.log("Path: ",msg);
     }
+
+
+    
 }
 module.exports = LOGGER;
