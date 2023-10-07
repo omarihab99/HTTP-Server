@@ -13,7 +13,7 @@ const createResponse = ({method, path, version, headers}) => {
     return `${version} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${echo.length}\r\n\r\n${echo}`;
   }
   if(path==="/user-agent" && headers["User-Agent"]) {
-    return `${version} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\nUser-Agent: ${headers["user-agent"]}\r\n`;
+    return `${version} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\nUser-Agent: ${headers["User-Agent"]}\r\n`;
   }
   return `${version} 404 Not Found\r\n\r\n`;
 }
