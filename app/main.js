@@ -6,12 +6,16 @@ console.log("Logs from your program will appear here!");
 // Uncomment this to pass the first stage
 const createResponse = ({method, path, version, headers}) => {
   if(path === "/") {
-    return "HTTP/1.1 200 OK\r\n\r\n";
+    return `${version} 200 OK\r\n\r\n`;
   }
-  if(path && headers["user-agent"]) {
-    return `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["user-agent"].length}\r\nUser-Agent: ${headers["user-agent"]}\r\n\r\n`;
+  if(path.startsWith("/echo/")) {
+    const[_,echo] = path.split("/echo/");
+    return `${version} 200 OK\r\nContent-Length: ${echo.length}\r\n\r\n${echo}`;
   }
-  return "HTTP/1.1 404 Not Found\r\n\r\n";
+  if(path && headers["User-Agent"]) {
+    return `${version} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["user-agent"].length}\r\nUser-Agent: ${headers["user-agent"]}\r\n\r\n`;
+  }
+  return `${version} 404 Not Found\r\n\r\n`;
 }
 const parseRequest = (data) => {
     const [request, ...requestHeaders] = data.split("\r\n");
