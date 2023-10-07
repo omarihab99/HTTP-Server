@@ -8,6 +8,8 @@ const createResponse = ({method, path, version, headers}) => {
   if(path === "/") {
     return `${version} 200 OK\r\n\r\n`;
   }
+  const[_,echo] = path.split("/echo/");
+  console.log(echo);
   if(path.startsWith("/echo/")) {
     const[_,echo] = path.split("/echo/");
     return `${version} 200 OK\r\nContent-Length: ${echo.length}\r\n\r\n${echo}`;
