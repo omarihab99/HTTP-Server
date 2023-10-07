@@ -12,4 +12,4 @@ const LOGGER = {
         console.log(msg);
     }
 }
-export default LOGGER;
+module.exports = LOGGER;
