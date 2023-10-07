@@ -8,7 +8,7 @@ const createResponse = ({method, path, version, headers}) => {
   if(path === "/") {
     return "HTTP/1.1 200 OK\r\n\r\n";
   }
-  if(path){
+  if(path === "/user-agent"){
     return `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["user-agent"].length}\r\nUser-Agent: ${headers["user-agent"]}\r\n\r\n`;
   }
   return "HTTP/1.1 404 Not Found\r\n\r\n";
