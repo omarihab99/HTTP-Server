@@ -14,11 +14,12 @@ const createResponse = ({method, path, version, headers}) => {
   return "HTTP/1.1 404 Not Found\r\n\r\n";
 }
 const parseRequest = (data) => {
-    const requestParts = data.split("\r\n");
-    console.log("Request parts: ",requestParts);
-    const [request, _ , requestHeaders] = requestParts[0];
+    const [request, ...requestHeaders] = data.split("\r\n");
     console.log("Request: ",request);
-    const [method, path, version] = request.split(" ");
+    console.log("Request Headers: ",requestHeaders);
+    const [method, path , version] = requestParts[0].split(" ");
+    console.log("Request: ",request);
+    // const [method, path, version] = request.split(" ");
     const headers = {};
     requestHeaders.split("\r\n").forEach((header) => {
         const [key, value] = header.split(": ");
