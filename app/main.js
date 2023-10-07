@@ -12,7 +12,7 @@ const createResponse = ({method, path, version, headers}) => {
     const[_,echo] = path.split("/echo/");
     return `${version} 200 OK\r\nContent-Length: ${echo.length}\r\n\r\n${echo}`;
   }
-  if(path && headers["User-Agent"]) {
+  if(path==="/user-agent" && headers["User-Agent"]) {
     return `${version} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["user-agent"].length}\r\nUser-Agent: ${headers["user-agent"]}\r\n\r\n`;
   }
   return `${version} 404 Not Found\r\n\r\n`;
