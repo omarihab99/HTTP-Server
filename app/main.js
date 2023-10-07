@@ -1,27 +1,33 @@
 const net = require("net");
-
+const LOGGER = require("./logger");
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
 
 // Uncomment this to pass the first stage
-const createResponse = (info) => {
-    if(info===""){
-        return "HTTP/1.1  404 Not Found\r\n\r\n";
-    }
-    if(info==="/"){
-        return "HTTP/1.1  200 OK\r\n\r\n";
-    }
-    return "HTTP/1.1  200 OK\r\nContent-Type: text/plain\r\nContent-Length:" + info.length + "\r\n\r\n" + info;
+const createResponse = ({method, path, version, headers}) => {
+  if(path === "/") {
+    return "HTTP/1.1 200 OK\r\n\r\n";
+  }
+  if(path === "/user-agent"){
+    return `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${headers["user-agent"].length}\r\nUser-Agent: ${headers["user-agent"]}\r\n\r\n`;
+  }
+  return "HTTP/1.1 404 Not Found\r\n\r\n";
 }
-const handleRequest = (data) => {
-    const [info, _] = data.split("\r\n");
-    const [__, path] = info.split(" ");
-    if(path==="") return createResponse("");
-    if(path==="/") return createResponse("/");
-    const pathArr = path.split("/");
-    if(pathArr[1]!=="echo") return createResponse("");
-    const string = path.split("/echo/")[1];
-    return createResponse(string);
+const parseRequest = (data) => {
+    const requestParts = data.split("\r\n");
+    const [request, _ , requestHeaders] = requestParts[0];
+    const [method, path, version] = request.split(" ");
+    const headers = {};
+    requestHeaders.split("\r\n").forEach((header) => {
+        const [key, value] = header.split(": ");
+        headers[key] = value;
+    });
+    LOGGER.path(path);
+    LOGGER.method(method);
+    LOGGER.version(version);
+    LOGGER.header(headers);
+    return {method, path, version, headers};
+    
 }
 const server = net.createServer((socket) => {
   console.log("SERVER: Starting");  
@@ -30,7 +36,8 @@ const server = net.createServer((socket) => {
     server.close();
   });
   socket.on("data", (data) => {
-    const res = handleRequest(data.toString());
+    const info = parseRequest(data.toString());
+    const res = createResponse(info);
     socket.write(res);
     socket.end();
   });
