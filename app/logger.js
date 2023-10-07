@@ -12,7 +12,5 @@ const LOGGER = {
         console.log("Path: ",msg);
     }
 
-
-    
 }
 module.exports = LOGGER;
