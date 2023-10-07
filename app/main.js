@@ -15,13 +15,10 @@ const createResponse = ({method, path, version, headers}) => {
 }
 const parseRequest = (data) => {
     const [request, ...requestHeaders] = data.split("\r\n");
-    console.log("Request: ",request);
-    console.log("Request Headers: ",requestHeaders);
-    const [method, path , version] = requestParts[0].split(" ");
-    console.log("Request: ",request);
-    // const [method, path, version] = request.split(" ");
+    const [method, path , version] = request.split(" ");
     const headers = {};
     requestHeaders.split("\r\n").forEach((header) => {
+        if(!header) return;
         const [key, value] = header.split(": ");
         headers[key] = value;
     });
