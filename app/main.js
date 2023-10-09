@@ -1,8 +1,7 @@
 const net = require("net");
-const {getFileContent, writeFileContent} = require("./readfile");
+const { getFileContent, writeFileContent } = require("./readfile");
 const p = require("node:path");
 const fs = require("fs");
-
 
 function createResponse({ method, path, version, headers, body }) {
   const STATUS_CODES = {
@@ -13,25 +12,32 @@ function createResponse({ method, path, version, headers, body }) {
   /*
     This switch statement is used to handle different requests based on the path.
   */
- if(path.startsWith("/files/")) path="/files/";
- if(path.startsWith("/echo")) path="/echo";
- if(path.startsWith("/user-agent")) path="/user-agent";
-  switch (path) {
+  let pathStart = path;
+  if (path.startsWith("/files/")) pathStart = "/files";
+  if (path.startsWith("/echo")) pathStart = "/echo";
+  if (path.startsWith("/user-agent")) pathStart = "/user-agent";
+  switch (pathStart) {
     // If the path is /, the response will be nothing but a 200 OK.
     case "/":
       return `${version} 200 OK\r\n\r\n`;
     // If the path is /echo, the response will be the body of the request.
     case "/echo":
-      
+      body = path.split("/echo/")[1];
+      if (!body) {
+        return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+      }
       return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}`;
     // If the path is /user-agent, the response will be the user-agent header sent by the client.
     case "/user-agent":
+      if (!headers["User-Agent"]) {
+        return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+      }
       return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\n${headers["User-Agent"]}`;
     /*  If the path is /files, this is an indication that the client wants to make some kind of file operation.
         if the method is GET, the response will be the content of the file.
         if the method is POST, the response will be a 201 Created.
     */
-    case "/files/":
+    case "/files":
       const directory = process.argv[3];
       if (!directory) {
         return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
@@ -58,11 +64,10 @@ function createResponse({ method, path, version, headers, body }) {
   return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
 }
 
-
 const parseRequest = (data) => {
   const [request, ...requestHeaders] = data.split("\r\n");
   let body = null;
-  
+
   const n = requestHeaders.length;
   /*
     This if statement is used to handle POST requests with content in the body.
@@ -78,7 +83,7 @@ const parseRequest = (data) => {
 
       BODY
   */
-  if(requestHeaders[n-2] == " "){ 
+  if (requestHeaders[n - 2] == " ") {
     body = requestHeaders.pop();
     requestHeaders.pop();
   }
