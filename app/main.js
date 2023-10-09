@@ -30,6 +30,7 @@ const createResponse = ({method, path, version, headers}) => {
     }
     const[_,fileName] = path.split("/files/");
     const fullPath = p.join(directory, fileName);
+    console.log('File: ',fullPath);
     if(!fs.existsSync(fullPath)) {
       return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
     }
