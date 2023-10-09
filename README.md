@@ -1,5 +1,5 @@
 
-# HTTP-Server using Node.js sockets
+# HTTP-Server using Node.js socket
 
 [![progress-banner](https://backend.codecrafters.io/progress/http-server/06c12e09-6f88-4567-9d6c-30c0dd042df8)](https://app.codecrafters.io/users/omarihab99?r=2qF)
 
