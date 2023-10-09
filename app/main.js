@@ -1,8 +1,8 @@
-const net = require("net");
-const LOGGER = require("./logger").default;
-const {getFileContent, writeFileContent} = require("./readfile");
-const p = require("node:path");
-const fs = require("fs");
+import net from "node:net";
+import LOGGER from "./logger";
+const {getFileContent, writeFileContent} = require("./readfile").default;
+import p from "node:path";
+import fs from "node:fs";
 
 
 function createResponse({ method, path, version, headers, body }) {

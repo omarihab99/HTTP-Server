@@ -1,4 +1,4 @@
-const chulk = require("chulk");
+import { bgBlue, bgGreen, bgYellow, bgPurple } from "chulk";
 
 /*
  * This is a simple logger for debugging purposes.
@@ -6,17 +6,17 @@ const chulk = require("chulk");
  */
 const LOGGER = {
     header: (msg) => {
-        console.log(chulk.bgBlue("Header: ",msg));
+        console.log(bgBlue("Header: ",msg));
     },
     method: (msg) => {
-        console.log(chulk.bgGreen("Method: ",msg));
+        console.log(bgGreen("Method: ",msg));
     },
     version: (msg) => {
-        console.log(chulk.bgYellow("Version: ",msg));
+        console.log(bgYellow("Version: ",msg));
     },
     path: (msg) => {
-        console.log(chulk.bgPurple("Path: ",msg));
+        console.log(bgPurple("Path: ",msg));
     }
 
 }
-module.exports = LOGGER;
+export default LOGGER;
