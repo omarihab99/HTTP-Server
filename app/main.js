@@ -42,8 +42,8 @@ const createResponse = ({method, path, version, headers}) => {
   return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
 }
 const parseRequest = (data) => {
-    const [request, ...requestHeaders] = data.split("\r\n");
-    console.log(data);
+    const [request, requestHeaders, _, body] = data.split("\r\n");
+    console.log(body);
     const [method, path , version] = request.split(" ");
     const headers = {};
     requestHeaders.forEach((header) => {
