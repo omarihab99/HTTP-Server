@@ -13,12 +13,16 @@ function createResponse({ method, path, version, headers, body }) {
   /*
     This switch statement is used to handle different requests based on the path.
   */
+ if(path.startsWith("/files/")) path="/files/";
+ if(path.startsWith("/echo")) path="/echo";
+ if(path.startsWith("/user-agent")) path="/user-agent";
   switch (path) {
     // If the path is /, the response will be nothing but a 200 OK.
     case "/":
       return `${version} 200 OK\r\n\r\n`;
     // If the path is /echo, the response will be the body of the request.
     case "/echo":
+      
       return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}`;
     // If the path is /user-agent, the response will be the user-agent header sent by the client.
     case "/user-agent":
