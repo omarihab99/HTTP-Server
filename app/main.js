@@ -12,7 +12,7 @@ console.log("Logs from your program will appear here!");
 
 
 // Uncomment this to pass the first stage
-const createResponse = ({method, path, version, headers}) => {
+const createResponse = ({method, path, version, headers, body}) => {
   if(path === "/") {
     return `${version} 200 OK\r\n\r\n`;
   }
@@ -39,11 +39,25 @@ const createResponse = ({method, path, version, headers}) => {
     }
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
   }
+  if(method === "POST" && body !== null && path.startsWith("/files/")) {
+    const directory = process.argv[3];
+    if(!directory) {
+      return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
+    }
+    const[_,fileName] = path.split("/files/");
+    const fullPath = p.resolve(directory, fileName);
+    fs.writeFileSync(fullPath, body);
+    return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+  }
   return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
 }
 const parseRequest = (data) => {
     const [request, ...requestHeaders] = data.split("\r\n");
-    console.log(requestHeaders);
+    let body = null;
+    if(requestHeaders.length===6){
+      body = requestHeaders.pop();
+      requestHeaders.pop();
+    }
     const [method, path , version] = request.split(" ");
     const headers = {};
     requestHeaders.forEach((header) => {
@@ -55,7 +69,7 @@ const parseRequest = (data) => {
     LOGGER.method(method);
     LOGGER.version(version);
     LOGGER.header(headers);
-    return {method, path, version, headers};
+    return {method, path, version, headers, body};
     
 }
 const server = net.createServer((socket) => {
