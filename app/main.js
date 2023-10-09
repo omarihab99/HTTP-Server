@@ -35,7 +35,7 @@ const createResponse = ({method, path, version, headers}) => {
     }
     const content = getFileContent(fileName);
     if(!content) {
-      return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+      return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: 0\r\n\r\n`;
     }
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
   }
