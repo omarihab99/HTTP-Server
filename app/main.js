@@ -33,6 +33,9 @@ const createResponse = ({method, path, version, headers}) => {
     if(!fs.existsSync(fullPath)) {
       return `${version} 404 ${STATUS_CODES[404]}\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nNot Found`;
     }
+    if(fs.existsSync(fullPath)){
+      console.log(true);
+    }
     const content = getFileContent(fileName);
     console.log('Content: ',content);
     if(!content) {
