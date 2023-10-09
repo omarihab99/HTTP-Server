@@ -47,7 +47,7 @@ const createResponse = ({method, path, version, headers, body}) => {
     const[_,fileName] = path.split("/files/");
     const fullPath = p.resolve(directory, fileName);
     fs.writeFileSync(fullPath, body);
-    return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+    return `${version} 201 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
   }
   return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
 }
