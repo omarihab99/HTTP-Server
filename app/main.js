@@ -1,5 +1,4 @@
 const net = require("net");
-const LOGGER = require("./logger");
 const {getFileContent, writeFileContent} = require("./readfile");
 const p = require("node:path");
 const fs = require("fs");
@@ -86,10 +85,6 @@ const parseRequest = (data) => {
     const [key, value] = header.split(": ");
     headers[key] = value;
   });
-  LOGGER.path(path);
-  LOGGER.method(method);
-  LOGGER.version(version);
-  LOGGER.header(headers);
   return { method, path, version, headers, body };
 };
 const server = net.createServer((socket) => {
