@@ -1,7 +1,7 @@
 import net from "node:net";
-import LOGGER from "app/logger.js";
+import LOGGER from "./logger.js";
 import { existsSync } from "fs";
-import { getFileContent, writeFileContent } from "app/readfile";
+import { getFileContent, writeFileContent } from "readfile";
 import p from "node:path";
 
 
