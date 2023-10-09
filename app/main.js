@@ -11,23 +11,23 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this to pass the first stage
 
-const createResponse = ({method, path, version, headers}) => {
-  if(path === "/") {
+const createResponse = ({method, requestPath, version, headers}) => {
+  if(requestPath === "/") {
     return `${version} 200 OK\r\n\r\n`;
   }
-  if(path.startsWith("/echo/")) {
-    const[_,echo] = path.split("/echo/");
+  if(requestPath.startsWith("/echo/")) {
+    const[_,echo] = requestPath.split("/echo/");
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${echo.length}\r\n\r\n${echo}`;
   }
-  if(path==="/user-agent" && headers["User-Agent"]) {
+  if(requestPath==="/user-agent" && headers["User-Agent"]) {
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\n${headers["User-Agent"]}`;
   }
-  if(method === "GET" && path.startsWith("/files/")) {
+  if(method === "GET" && requestPath.startsWith("/files/")) {
     const directory = process.argv[3];
     if(!directory) {
       return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
     }
-    const[_,fileName] = path.split("/files/");
+    const[_,fileName] = requestPath.split("/files/");
     const fullPath = path.join(directory, fileName);
     if(!fs.existsSync(fullPath)) {
       return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
