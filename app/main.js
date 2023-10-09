@@ -29,15 +29,10 @@ const createResponse = ({method, path, version, headers}) => {
     }
     const[_,fileName] = path.split("/files/");
     const fullPath = p.resolve(directory, fileName);
-    console.log('File: ',fullPath);
     if(!fs.existsSync(fullPath)) {
       return `${version} 404 ${STATUS_CODES[404]}\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nNot Found`;
     }
-    if(fs.existsSync(fullPath)){
-      console.log(true);
-    }
-    const content = getFileContent(fileName);
-    console.log('Content: ',content);
+    const content = getFileContent(fullPath);
     if(!content) {
       return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: 0\r\n\r\n`;
     }
