@@ -24,6 +24,9 @@ const createResponse = ({method, path, version, headers}) => {
   if(method === "GET" && path.startsWith("/files/")) {
     const[_,fileName] = path.split("/files/");
     const content = getFileContent(fileName);
+    if(!content) {
+      return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
+    }
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
   }
   return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
