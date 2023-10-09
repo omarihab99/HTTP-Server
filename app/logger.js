@@ -7,16 +7,16 @@ const chalk = require("chalk");
 
 const LOGGER = {
     header: (msg) => {
-        console.log(chulk.bgBlue("Header: ",msg));
+        console.log(chalk.bgBlue("Header: ",msg));
     },
     method: (msg) => {
-        console.log(chulk.bgGreen("Method: ",msg));
+        console.log(chalk.bgGreen("Method: ",msg));
     },
     version: (msg) => {
-        console.log(chulk.bgYellow("Version: ",msg));
+        console.log(chalk.bgYellow("Version: ",msg));
     },
     path: (msg) => {
-        console.log(chulk.bgPurple("Path: ",msg));
+        console.log(chalk.bgPurple("Path: ",msg));
     }
 
 }
