@@ -1,8 +1,8 @@
 import net from "node:net";
 import LOGGER from "./logger";
-const {getFileContent, writeFileContent} = require("./readfile").default;
+import { existsSync } from "fs";
+import { getFileContent, writeFileContent } from "./readfile";
 import p from "node:path";
-import fs from "node:fs";
 
 
 function createResponse({ method, path, version, headers, body }) {
@@ -36,7 +36,7 @@ function createResponse({ method, path, version, headers, body }) {
       const [_, fileName] = path.split("/files/");
       const fullPath = p.resolve(directory, fileName);
       if (method === "GET") {
-        if (!fs.existsSync(fullPath)) {
+        if (!existsSync(fullPath)) {
           return `${version} 404 ${STATUS_CODES[404]}\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nNot Found`;
         }
         const content = getFileContent(fullPath);
