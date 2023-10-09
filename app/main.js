@@ -54,7 +54,6 @@ function createResponse({ method, path, version, headers, body }) {
         }
         return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
       }
-      console.log(body);
       if (method === "POST" && body !== null) {
         
         writeFileContent(fullPath, body);
@@ -85,7 +84,7 @@ const parseRequest = (data) => {
 
       BODY
   */
-  if (requestHeaders[n - 2] == " ") {
+  if (requestHeaders[n - 2] == "") {
     body = requestHeaders.pop();
     requestHeaders.pop();
   }
