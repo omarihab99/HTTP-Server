@@ -11,6 +11,7 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this to pass the first stage
 
+
 const createResponse = ({method, requestPath, version, headers}) => {
   if(requestPath === "/") {
     return `${version} 200 OK\r\n\r\n`;
