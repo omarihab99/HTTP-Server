@@ -43,6 +43,7 @@ const createResponse = ({method, path, version, headers}) => {
 }
 const parseRequest = (data) => {
     const [request, ...requestHeaders] = data.split("\r\n");
+    console.log(data);
     const [method, path , version] = request.split(" ");
     const headers = {};
     requestHeaders.forEach((header) => {
