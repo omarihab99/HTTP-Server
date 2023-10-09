@@ -21,7 +21,7 @@ const createResponse = ({method, path, version, headers}) => {
   if(path==="/user-agent" && headers["User-Agent"]) {
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\n${headers["User-Agent"]}`;
   }
-  if(path.startsWith("/files/")) {
+  if(method === "GET" && path.startsWith("/files/")) {
     const[_,fileName] = path.split("/files/");
     const content = getFileContent(fileName);
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\n\r\n${content}`;

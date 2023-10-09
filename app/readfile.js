@@ -1,9 +1,9 @@
 const fs = require("fs");
-const path = require("path");
 
-const getFileContent = (filePath) => {
+function getFileContent (filePath){
+    if(!fs.existsSync(filePath)) {
+        return null;
+    }
     return fs.readFileSync(filePath, "utf8");
 }
-module.exports = {
-    getFileContent
-}
+module.exports = getFileContent;
