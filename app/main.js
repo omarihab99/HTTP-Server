@@ -28,7 +28,7 @@ const createResponse = ({method, path, version, headers}) => {
       return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
     }
     const[_,fileName] = path.split("/files/");
-    const fullPath = p.join(directory, fileName);
+    const fullPath = p.resolve(directory, fileName);
     console.log('File: ',fullPath);
     if(!fs.existsSync(fullPath)) {
       return `${version} 404 ${STATUS_CODES[404]}\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nNot Found`;
