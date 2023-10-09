@@ -1,6 +1,12 @@
 const fs = require("fs");
 
+/*
+    File-related operations.
+*/
 function getFileContent (filePath){
     return fs.readFileSync(filePath, "utf8");
 }
-module.exports = getFileContent;
+function writeFileContent (filePath, content){
+    fs.writeFileSync(filePath, content);
+}
+module.exports = {getFileContent, writeFileContent};
