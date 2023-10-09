@@ -54,9 +54,11 @@ function createResponse({ method, path, version, headers, body }) {
         }
         return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
       }
+      console.log(body);
       if (method === "POST" && body !== null) {
+        
         writeFileContent(fullPath, body);
-        return `${version} 201 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
+        return `${version} 201 ${STATUS_CODES[201]}\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n`;
       }
     default:
       break;
