@@ -1,6 +1,7 @@
 const net = require("net");
 const LOGGER = require("./logger");
 const getFileContent = require("./readfile");
+const path = require("path");
 const STATUS_CODES = {
   200: "OK",
   404: "Not Found"
@@ -22,7 +23,15 @@ const createResponse = ({method, path, version, headers}) => {
     return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: text/plain\r\nContent-Length: ${headers["User-Agent"].length}\r\n\r\n${headers["User-Agent"]}`;
   }
   if(method === "GET" && path.startsWith("/files/")) {
+    const directory = process.argv[3];
+    if(!directory) {
+      return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
+    }
     const[_,fileName] = path.split("/files/");
+    const fullPath = path.join(directory, fileName);
+    if(!fs.existsSync(fullPath)) {
+      return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
+    }
     const content = getFileContent(fileName);
     if(!content) {
       return `${version} 404 ${STATUS_CODES[404]}\r\n\r\n`;
