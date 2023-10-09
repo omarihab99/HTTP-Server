@@ -34,6 +34,7 @@ const createResponse = ({method, path, version, headers}) => {
       return `${version} 404 ${STATUS_CODES[404]}\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nNot Found`;
     }
     const content = getFileContent(fileName);
+    console.log('Content: ',content);
     if(!content) {
       return `${version} 200 ${STATUS_CODES[200]}\r\nContent-Type: application/octet-stream\r\nContent-Length: 0\r\n\r\n`;
     }
