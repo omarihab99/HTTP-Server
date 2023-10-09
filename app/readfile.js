@@ -1,12 +1,12 @@
-import { readFileSync, writeFileSync } from "fs";
+const fs = require("fs");
 
 /*
     File-related operations.
 */
 function getFileContent (filePath){
-    return readFileSync(filePath, "utf8");
+    return fs.readFileSync(filePath, "utf8");
 }
 function writeFileContent (filePath, content){
-    writeFileSync(filePath, content);
+    fs.writeFileSync(filePath, content);
 }
-export default {getFileContent, writeFileContent};
+module.exports = {getFileContent, writeFileContent};
