@@ -4,6 +4,7 @@ const chalk = require("chalk");
  * This is a simple logger for debugging purposes.
  * You can use print statements as follows for debugging.
  */
+
 const LOGGER = {
     header: (msg) => {
         console.log(chulk.bgBlue("Header: ",msg));
