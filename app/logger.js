@@ -1,4 +1,4 @@
-const chulk = require("chulk");
+const chalk = require("chalk");
 
 /*
  * This is a simple logger for debugging purposes.
