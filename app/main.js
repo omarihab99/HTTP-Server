@@ -2,6 +2,7 @@ const net = require("net");
 const LOGGER = require("./logger");
 const getFileContent = require("./readfile");
 const p = require("node:path");
+const fs = require("fs");
 const STATUS_CODES = {
   200: "OK",
   404: "Not Found"
